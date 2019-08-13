@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <lightning:input aura:id="url" label="url" name="url" placeholder="url" type="url"/><br/>
+    <lightning:button label="Send Request" onclick="{!c.thirdpartyClientCall}"/>
+</aura:component>

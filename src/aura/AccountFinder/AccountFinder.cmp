@@ -1,0 +1,100 @@
+<aura:component controller = "AccountController" implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name = 'searchKeyword' type = 'String'/>
+    <aura:attribute name = 'accountlist' type= 'List'/>
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name  = 'message' type = 'Boolean' default="false"/>
+    <aura:attribute name  = 'error' type = 'Boolean' default="false"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{! c.doInit }"/>
+    
+    
+    <div>
+        <lightning:layout>
+            <lightning:layoutItem size="3" padding="around-small">
+                <lightning:input  aura:id="campingform"
+                                 value="{!v.searchKeyword}"
+                                 required="true"
+                                 placeholder="search Accounts.."
+                                 label="Account Name"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="2" padding="around-small">
+                <lightning:button onclick="{!c.SearchAction}"
+                                  variant="brand"
+                                  label="Search"
+                                  iconName="utility:search"/> 
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+     <!-- ERROR MESSAGE IF NOT RECORDS FOUND--> 
+            <aura:if isTrue="{!v.error}">
+                <div class="slds-notify_container slds-is-relative">
+                    <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_small">Sorry..We didn't find any records</h2>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+    <div>
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="S.no">S.no</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Account Name">Account Name</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Type">Type</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Industry">Industry</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Phone">Phone</div>
+                    </th>
+                </tr>
+            </thead>
+            
+            <tbody> 
+                
+                <aura:iteration items="{!v.accountlist}" var="acc" indexVar="count" >
+                    <tr>
+                        <td>
+                            <div class="slds-truncate">{!count + 1}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!acc.Name}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!acc.Type}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!acc.Industry}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!acc.Phone}</div>
+                        </td>
+                        <td onclick="{!c.editacc}" id="{!acc.Id}">
+                            <lightning:button variant="brand"
+                                              onclick="{! c.openModel }"
+                                              label="Edit" /> 
+                        </td>
+                        <td onclick="{!c.deleteacc}" id="{!acc.Id}">
+                            <lightning:button label="Delete"
+                                              iconName="utility:delete"
+                                              iconPosition="left"
+                                              variant="destructive"/>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+           
+        </table>
+        <aura:if isTrue="{!v.isOpen}">
+            <c:Robert/>
+        </aura:if>
+    </div>
+    
+</aura:component>
